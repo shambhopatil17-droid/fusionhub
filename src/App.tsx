@@ -7,6 +7,7 @@ import { ArticleView } from './components/ArticleView';
 import { ReadingListDrawer } from './components/ReadingListDrawer';
 import { NewsletterModal } from './components/NewsletterModal';
 import { SeoKeywordMapModal } from './components/SeoKeywordMapModal';
+import { VercelDeployGuideModal } from './components/VercelDeployGuideModal';
 import { Footer } from './components/Footer';
 import { 
   SlidersHorizontal, 
@@ -16,7 +17,8 @@ import {
   BookOpen,
   Table2,
   CheckCircle2,
-  ShieldCheck
+  ShieldCheck,
+  Triangle
 } from 'lucide-react';
 
 export default function App() {
@@ -34,6 +36,7 @@ export default function App() {
   const [isReadingListOpen, setIsReadingListOpen] = useState(false);
   const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
   const [isKeywordMapOpen, setIsKeywordMapOpen] = useState(false);
+  const [isVercelModalOpen, setIsVercelModalOpen] = useState(false);
   const [sortBy, setSortBy] = useState<'chronological' | 'readTime'>('chronological');
 
   // Sync saved bookmarks with localStorage
@@ -213,7 +216,7 @@ export default function App() {
         />
       ) : (
         <main className="flex-1">
-          {/* Institutional SEO Banner: Quick Access to Part A Keyword Research */}
+          {/* Institutional SEO Banner: Quick Access to Part A Keyword Research & Vercel Guide */}
           <section className="bg-stone-900 text-stone-200 py-3 px-4 sm:px-6 border-b border-stone-800 text-xs">
             <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 font-sans">
               <div className="flex items-center gap-2">
@@ -222,13 +225,22 @@ export default function App() {
                   <strong>On-Page SEO & AEO Standard Verified:</strong> Clean URLs, Question-Answer H2s, Title rules (50-60 chars), Meta descriptions (150-160 chars).
                 </span>
               </div>
-              <button
-                onClick={() => setIsKeywordMapOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1 bg-stone-100 text-stone-900 hover:bg-white rounded font-semibold text-[11px] uppercase tracking-wider transition-colors shrink-0"
-              >
-                <Table2 className="w-3.5 h-3.5" />
-                <span>Open Keyword Research Table (Part A)</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsVercelModalOpen(true)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded font-semibold text-[11px] uppercase tracking-wider transition-colors shrink-0 border border-stone-700"
+                >
+                  <Triangle className="w-3 h-3 text-stone-300 fill-stone-300" />
+                  <span>Host on Vercel (Step 1)</span>
+                </button>
+                <button
+                  onClick={() => setIsKeywordMapOpen(true)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-stone-100 text-stone-900 hover:bg-white rounded font-semibold text-[11px] uppercase tracking-wider transition-colors shrink-0"
+                >
+                  <Table2 className="w-3.5 h-3.5" />
+                  <span>Keyword Research Table (Part A)</span>
+                </button>
+              </div>
             </div>
           </section>
 
@@ -432,6 +444,12 @@ export default function App() {
         onClose={() => setIsKeywordMapOpen(false)}
         onNavigateToUrl={handleNavigateToUrl}
         currentPageUrl={selectedArticle ? selectedArticle.cleanUrl : '/'}
+      />
+
+      {/* Step 1: Vercel Hosting & Deployment Guide Modal */}
+      <VercelDeployGuideModal
+        isOpen={isVercelModalOpen}
+        onClose={() => setIsVercelModalOpen(false)}
       />
 
       {/* Newsletter / Dispatch Inscription Modal */}
