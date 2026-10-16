@@ -1,0 +1,6 @@
+{
+  "name": "ÉTOFFE - The Fashion Design Journal",
+  "description": "A contemporary editorial journal exploring haute couture architecture, sustainable patternmaking, textile science, and the art of dress.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

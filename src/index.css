@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-reading: 'Lora', Georgia, serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #fbf9f5;
+    color: #1c1917;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: #292524;
+    color: #fafaf9;
+  }
+}
+
+.font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-sans {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+.font-reading {
+  font-family: 'Lora', Georgia, serif;
+}
+
+/* Elegant editorial drop cap */
+.drop-cap::first-letter {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 3.5rem;
+  line-height: 0.85;
+  float: left;
+  margin-top: 0.15rem;
+  margin-right: 0.75rem;
+  font-weight: 600;
+  color: #1c1917;
+}
+
+/* Reading font size modifiers */
+.reading-size-standard {
+  font-size: 1.0625rem;
+  line-height: 1.85;
+}
+
+.reading-size-large {
+  font-size: 1.1875rem;
+  line-height: 1.9;
+}
+
+.reading-size-editorial {
+  font-size: 1.3125rem;
+  line-height: 1.95;
+}
+
+/* Subtle parchment paper grid pattern for hero banners and cards */
+.editorial-paper-pattern {
+  background-color: #fbf9f5;
+  background-image: radial-gradient(rgba(28, 25, 23, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
