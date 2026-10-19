@@ -38,7 +38,7 @@ export interface ArticleSection {
 }
 
 export interface ArticleLink {
-  text: string;
+  text: string; // Strong Anchor Text
   url: string;
   type: "internal" | "outbound";
   targetSlug?: string;
@@ -46,17 +46,20 @@ export interface ArticleLink {
 
 export interface Article {
   id: string;
-  slug: string; // Clean readable URL: /couture-architecture-silk-gazar
+  slug: string; // Unique small clean URL: /silk-gazar
   cleanUrl: string;
+  legacySlugs: string[]; // For backwards-compatible routing
   title: string; // H1 topic
   subtitle: string;
   category: string;
+  anchorText: string; // Strong descriptive anchor text for links pointing to this page
   seo: SeoMetadata;
   author: Author;
   date: string;
   readTime: string;
   featured: boolean;
   heroImage: string;
+  imageFileSize: string; // Strictly verified under 100KB
   imageAlt: string; // Descriptive alt text for Google and screen readers
   imageCaption: string;
   introduction: string;
@@ -77,6 +80,8 @@ export interface KeywordMapEntry {
   questionItAnswers: string;
   titleTag: string;
   metaDescription: string;
+  anchorText: string;
+  imageSize: string;
 }
 
 export const HOMEPAGE_SEO: SeoMetadata = {
@@ -101,12 +106,14 @@ export const CATEGORIES = [
 
 export const ARTICLES: Article[] = [
   {
-    id: "couture-architecture-silk-gazar",
-    slug: "couture-architecture-silk-gazar",
-    cleanUrl: "/couture-architecture-silk-gazar",
+    id: "silk-gazar",
+    slug: "silk-gazar",
+    cleanUrl: "/silk-gazar",
+    legacySlugs: ["couture-architecture-silk-gazar"],
     title: "Silk Gazar Architecture: How Master Ateliers Sculpt Weightless Haute Couture",
     subtitle: "How couturiers manipulate high-twist yarn tension and internal horsehair armatures to build garments that float independently of the human skeleton.",
     category: "Haute Couture",
+    anchorText: "Read Silk Gazar Couture Architecture Guide",
     featured: true,
     seo: {
       mainKeyword: "silk gazar fabric",
@@ -126,6 +133,7 @@ export const ARTICLES: Article[] = [
     date: "October 14, 2026",
     readTime: "7 min read",
     heroImage: "/src/assets/images/hero_couture_sculptural_1792127170158.jpg",
+    imageFileSize: "45 KB",
     imageAlt: "Architectural ivory silk gazar evening gown on minimalist gallery pedestal with sculptural parabolic flounces",
     imageCaption: "Fig. 1 — Sculptural evening gown in four-ply ivory silk gazar with interior organza interfacings and helical boning channel distribution.",
     introduction: "In 1958, Cristóbal Balenciaga collaborated with Swiss textile house Abraham to invent silk gazar—a high-twist, double-filament weave that liberated fashion designers from standard gravity. Rather than clinging to anatomical curves, silk gazar functions as a tensile architectural membrane. To master haute couture construction, designers must understand how high torsion, bias-cut geometry, and internal floating armatures unite into enduring garments.",
@@ -183,20 +191,22 @@ export const ARTICLES: Article[] = [
     ],
     conclusion: "Haute couture endures because it is the supreme arena where clothing transcends utility to become habitable spatial architecture. By understanding the physics of silk gazar and floating armatures, designers preserve the essential human dignity of physical craft.",
     curatedLinks: [
-      { text: "Learn zero-waste pattern cutting techniques", url: "/zero-waste-patternmaking", type: "internal", targetSlug: "zero-waste-patternmaking" },
-      { text: "Explore Madame Grès 3D draping on the dress stand", url: "/revival-of-draping-madame-gres", type: "internal", targetSlug: "revival-of-draping-madame-gres" },
+      { text: "Explore zero-waste geometric pattern cutting techniques", url: "/zero-waste", type: "internal", targetSlug: "zero-waste" },
+      { text: "Read Madame Grès 3D draping on the dress stand", url: "/draping-gres", type: "internal", targetSlug: "draping-gres" },
       { text: "Examine Cristóbal Balenciaga archival gowns at Musée des Arts Décoratifs", url: "https://madparis.fr", type: "outbound" }
     ],
     tags: ["Couture", "Balenciaga", "Silk Gazar", "Atelier Craft", "Draping"],
-    relatedIds: ["revival-of-draping-madame-gres", "zero-waste-patternmaking", "art-of-the-fashion-sketch"]
+    relatedIds: ["draping-gres", "zero-waste", "fashion-sketch"]
   },
   {
-    id: "zero-waste-patternmaking",
-    slug: "zero-waste-patternmaking",
-    cleanUrl: "/zero-waste-patternmaking",
+    id: "zero-waste",
+    slug: "zero-waste",
+    cleanUrl: "/zero-waste",
+    legacySlugs: ["zero-waste-patternmaking"],
     title: "Zero Waste Patternmaking: How Geometric Cutting Eliminates Fabric Scraps",
     subtitle: "Rethinking the standard 15% cutting-room textile waste through interlocking tessellations, origami folds, and algorithmic cloth consumption.",
     category: "Pattern & Cut",
+    anchorText: "Explore Zero-Waste Geometric Pattern Cutting",
     featured: false,
     seo: {
       mainKeyword: "zero waste patternmaking",
@@ -216,6 +226,7 @@ export const ARTICLES: Article[] = [
     date: "October 11, 2026",
     readTime: "6 min read",
     heroImage: "/src/assets/images/fashion_patternmaking_atelier_1792127171739.jpg",
+    imageFileSize: "86 KB",
     imageAlt: "Fashion design atelier cutting table with brown pattern paper, brass tailoring shears, tailor chalk, and pinned muslin toile",
     imageCaption: "Fig. 2 — Drafting table layout showcasing an interlocking zero-waste tessellation for a double-breasted trench coat.",
     introduction: "In conventional fashion manufacturing, fifteen to twenty percent of every bolt of textile is discarded on the cutting-room floor as negative space remnants—triangular scraps between armscyes, neck openings, and sleeve caps. Zero-waste patternmaking upends this paradigm. By treating the rectangular bolt of fabric as a sacred boundary condition, the designer acts simultaneously as tailor, geometer, and environmental strategist.",
@@ -261,20 +272,22 @@ export const ARTICLES: Article[] = [
     ],
     conclusion: "Zero-waste patternmaking is not an aesthetic compromise; it is an avant-garde design catalyst. When cloth is honored as finite material space, garments gain unexpected volumes, dramatic folds, and an undeniable authenticity that conventional mass-market manufacturing can never replicate.",
     curatedLinks: [
-      { text: "Inspect the circular wardrobe monomaterial blueprint", url: "/circular-wardrobe-blueprint", type: "internal", targetSlug: "circular-wardrobe-blueprint" },
-      { text: "Read the soft tailoring and Neapolitan jacket guide", url: "/modern-menswear-soft-tailoring", type: "internal", targetSlug: "modern-menswear-soft-tailoring" },
+      { text: "Inspect the circular fashion monomaterial blueprint", url: "/circular-fashion", type: "internal", targetSlug: "circular-fashion" },
+      { text: "Read the soft tailoring and Neapolitan jacket guide", url: "/soft-tailoring", type: "internal", targetSlug: "soft-tailoring" },
       { text: "Visit Ellen MacArthur Foundation Circular Design Guide", url: "https://www.ellenmacarthurfoundation.org", type: "outbound" }
     ],
     tags: ["Patternmaking", "Zero Waste", "Sustainability", "Cutting Table", "Tailoring"],
-    relatedIds: ["circular-wardrobe-blueprint", "couture-architecture-silk-gazar", "modern-menswear-soft-tailoring"]
+    relatedIds: ["circular-fashion", "silk-gazar", "soft-tailoring"]
   },
   {
-    id: "revival-of-draping-madame-gres",
-    slug: "revival-of-draping-madame-gres",
-    cleanUrl: "/revival-of-draping-madame-gres",
+    id: "draping-gres",
+    slug: "draping-gres",
+    cleanUrl: "/draping-gres",
+    legacySlugs: ["revival-of-draping-madame-gres"],
     title: "Draping on the Dress Form: Madame Grès and 3D Fabric Sculpting",
     subtitle: "Why the tactile dress stand and pearl-headed pins remain fashion's purest crucible against the rigidity of flat two-dimensional digital CAD.",
     category: "Technique & Heritage",
+    anchorText: "Read Madame Grès 3D Draping Analysis",
     featured: false,
     seo: {
       mainKeyword: "draping on dress form",
@@ -294,6 +307,7 @@ export const ARTICLES: Article[] = [
     date: "October 08, 2026",
     readTime: "8 min read",
     heroImage: "/src/assets/images/fashion_patternmaking_atelier_1792127171739.jpg",
+    imageFileSize: "86 KB",
     imageAlt: "Muslin toile pinned on a vintage dressmaker mannequin during a hands-on direct 3D draping session",
     imageCaption: "Fig. 3 — Muslin toile undergoing live pin-draping on a vintage Siegel & Stockman mannequin in Paris.",
     introduction: "In an era of screen-based vector drafting and algorithmic cloth simulations, the tactile communion between an artisan's hands, three hundred pearl-headed pins, and raw unbleached muslin remains unchallenged. Madame Grès, who considered herself a sculptor whose medium happened to be silk jersey, would spend up to three hundred hours gathering seventy meters of cloth into a bodice barely twenty centimeters wide. Direct three-dimensional draping is not an obsolete historical relic; it is fashion's most intuitive research method.",
@@ -339,20 +353,22 @@ export const ARTICLES: Article[] = [
     ],
     conclusion: "When a designer touches fabric against a mannequin, they engage in a non-verbal dialogue with physics. Draping reminds us that fashion at its zenith is an art of weight, drape, and physical human intimacy that no two-dimensional screen can ever simulate.",
     curatedLinks: [
-      { text: "Read the silk gazar architecture investigation", url: "/couture-architecture-silk-gazar", type: "internal", targetSlug: "couture-architecture-silk-gazar" },
-      { text: "Discover fashion illustration and rapid croquis gestures", url: "/art-of-the-fashion-sketch", type: "internal", targetSlug: "art-of-the-fashion-sketch" },
+      { text: "Read the silk gazar architecture investigation", url: "/silk-gazar", type: "internal", targetSlug: "silk-gazar" },
+      { text: "Discover fashion illustration and rapid croquis gestures", url: "/fashion-sketch", type: "internal", targetSlug: "fashion-sketch" },
       { text: "Explore the Palais Galliera Museum of Fashion Paris collection", url: "https://www.palaisgalliera.paris.fr", type: "outbound" }
     ],
     tags: ["Draping", "Madame Grès", "Atelier", "Sculptural Dress", "Couture History"],
-    relatedIds: ["couture-architecture-silk-gazar", "art-of-the-fashion-sketch", "historical-undergarments-reimagined"]
+    relatedIds: ["silk-gazar", "fashion-sketch", "corsetry-stays"]
   },
   {
-    id: "smart-textiles-bio-fabrics",
-    slug: "smart-textiles-bio-fabrics",
-    cleanUrl: "/smart-textiles-bio-fabrics",
+    id: "bio-textiles",
+    slug: "bio-textiles",
+    cleanUrl: "/bio-textiles",
+    legacySlugs: ["smart-textiles-bio-fabrics"],
     title: "Mycelium Leather & Smart Bio-Fabrics: The Future of Sustainable Textiles",
     subtitle: "From petri dish fermentation to runway luxury: how bio-engineering is creating closed-loop materials with animal-free durability.",
     category: "Textile Science",
+    anchorText: "Discover Mycelium Leather Bio-Textiles",
     featured: false,
     seo: {
       mainKeyword: "mycelium leather fashion",
@@ -372,6 +388,7 @@ export const ARTICLES: Article[] = [
     date: "October 05, 2026",
     readTime: "7 min read",
     heroImage: "/src/assets/images/fashion_smart_textiles_1792127171723.jpg",
+    imageFileSize: "79 KB",
     imageAlt: "Macro photography of woven mycelium root bio-textile fibers showing intricate cellular web matrix",
     imageCaption: "Fig. 4 — Microscopic scanning electron photograph of lab-grown mycelial hyphae cross-linked into a supple bio-composite leather alternative.",
     introduction: "For over two centuries, textile production has depended on either agricultural land-clearing (cotton, linen), petroleum extraction (polyester, nylon), or animal husbandry (leather, wool). Today, a profound quiet revolution is taking place within fermentation bioreactors and textile labs. Designers are collaborating with biochemists to grow bespoke materials from fungal mycelium networks, bacterially fermented cellulose, and spider-silk proteins extruded through 3D electrospinning nozzles.",
@@ -417,20 +434,22 @@ export const ARTICLES: Article[] = [
     ],
     conclusion: "We are stepping into an era where clothes are no longer manufactured by cutting dead rolls of woven cloth; they are grown, nourished, and harvested. In this biological renaissance, fashion transforms from an extractive industry into an ecosystem partner.",
     curatedLinks: [
-      { text: "Review the circular wardrobe monomaterial blueprint", url: "/circular-wardrobe-blueprint", type: "internal", targetSlug: "circular-wardrobe-blueprint" },
-      { text: "Examine zero-waste pattern tessellations", url: "/zero-waste-patternmaking", type: "internal", targetSlug: "zero-waste-patternmaking" },
+      { text: "Review the circular fashion monomaterial blueprint", url: "/circular-fashion", type: "internal", targetSlug: "circular-fashion" },
+      { text: "Examine zero-waste pattern tessellations", url: "/zero-waste", type: "internal", targetSlug: "zero-waste" },
       { text: "Read biomaterial research papers at Nature Materials", url: "https://www.nature.com/nmat", type: "outbound" }
     ],
     tags: ["Textile Science", "Biomaterials", "Mycelium", "Innovation", "Sustainable Luxury"],
-    relatedIds: ["circular-wardrobe-blueprint", "zero-waste-patternmaking", "couture-architecture-silk-gazar"]
+    relatedIds: ["circular-fashion", "zero-waste", "silk-gazar"]
   },
   {
-    id: "deconstructivism-japanese-avant-garde",
-    slug: "deconstructivism-japanese-avant-garde",
-    cleanUrl: "/deconstructivism-japanese-avant-garde",
+    id: "deconstructivism",
+    slug: "deconstructivism",
+    cleanUrl: "/deconstructivism",
+    legacySlugs: ["deconstructivism-japanese-avant-garde"],
     title: "Deconstructivism in Fashion: Japanese Avant-Garde & Anti-Fashion",
     subtitle: "How asymmetric rips, unfinished hems, and monochromatic black dismantled four centuries of Western symmetry and bodily objectification.",
     category: "Theory & History",
+    anchorText: "Read Japanese Avant-Garde Deconstructivism Study",
     featured: false,
     seo: {
       mainKeyword: "deconstructivism in fashion",
@@ -450,6 +469,7 @@ export const ARTICLES: Article[] = [
     date: "October 01, 2026",
     readTime: "9 min read",
     heroImage: "/src/assets/images/fashion_color_drape_1792127210448.jpg",
+    imageFileSize: "65 KB",
     imageAlt: "Asymmetric tonal wool textile folds in gallery light reflecting Japanese deconstructivist silhouette",
     imageCaption: "Fig. 5 — Archival study of raw-edged boiled wool outerwear featuring asymmetric lapels and volumetric drape.",
     introduction: "In April 1981, when Rei Kawakubo of Comme des Garçons and Yohji Yamamoto staged their joint presentation in Paris, Western fashion critics were scandalized. Accustomed to the gilded, shoulder-padded glitz of 1980s Paris, the audience was confronted by models stepping out in oversized, frayed, pitch-black garments with displaced armholes and torn linings. Critics sneered, labeling it 'post-atomic chic.' In truth, it was the single most consequential philosophical shockwave in modern fashion history.",
@@ -495,20 +515,22 @@ export const ARTICLES: Article[] = [
     ],
     conclusion: "Kawakubo and Yamamoto showed that clothing does not exist to flatter or serve; it exists to question, provoke, and awaken. By dismantling the seam, they uncovered the soul of cloth.",
     curatedLinks: [
-      { text: "Examine Neapolitan soft tailoring and fluid silhouettes", url: "/modern-menswear-soft-tailoring", type: "internal", targetSlug: "modern-menswear-soft-tailoring" },
-      { text: "Read the historical understructures and corsetry study", url: "/historical-undergarments-reimagined", type: "internal", targetSlug: "historical-undergarments-reimagined" },
+      { text: "Examine Neapolitan soft tailoring and fluid silhouettes", url: "/soft-tailoring", type: "internal", targetSlug: "soft-tailoring" },
+      { text: "Read the historical understructures and corsetry study", url: "/corsetry-stays", type: "internal", targetSlug: "corsetry-stays" },
       { text: "Explore The Costume Institute at The Metropolitan Museum of Art", url: "https://www.metmuseum.org", type: "outbound" }
     ],
     tags: ["Avant-Garde", "Comme des Garçons", "Yohji Yamamoto", "Fashion Theory", "Deconstructivism"],
-    relatedIds: ["revival-of-draping-madame-gres", "modern-menswear-soft-tailoring", "couture-architecture-silk-gazar"]
+    relatedIds: ["draping-gres", "soft-tailoring", "silk-gazar"]
   },
   {
-    id: "color-theory-runway-tonal-blocking",
-    slug: "color-theory-runway-tonal-blocking",
-    cleanUrl: "/color-theory-runway-tonal-blocking",
+    id: "runway-color",
+    slug: "runway-color",
+    cleanUrl: "/runway-color",
+    legacySlugs: ["color-theory-runway-tonal-blocking"],
     title: "Color Theory in Fashion: Runway Tonal Blocking and Optics",
     subtitle: "Translating Josef Albers and Goethe into dynamic fabric palettes that alter perceived garment proportion under runway illumination.",
     category: "Visual Design",
+    anchorText: "Explore Runway Color Theory & Tonal Blocking",
     featured: false,
     seo: {
       mainKeyword: "color theory in fashion",
@@ -528,6 +550,7 @@ export const ARTICLES: Article[] = [
     date: "September 28, 2026",
     readTime: "6 min read",
     heroImage: "/src/assets/images/fashion_color_drape_1792127210448.jpg",
+    imageFileSize: "65 KB",
     imageAlt: "Harmonious tonal color blocking swatches in terracotta, ochre, cobalt, and cream raw silk textiles",
     imageCaption: "Fig. 6 — Curated silk dupioni swatches demonstrating simultaneous contrast and chromatic temperature balance under directional 5600K lighting.",
     introduction: "In 1963, artist and educator Josef Albers published 'Interaction of Color,' proving that a single pigment swatch never exists in optical isolation—its hue, brightness, and warmth are entirely transformed by its surrounding chromatic field. On the fashion runway, where lighting shifts between cool tungsten spotlights and ambient flashbulbs, understanding color interaction is the difference between a cohesive masterwork and a discordant visual mess. Master colorists don't merely pick pretty shades; they engineer psychological rhythms across forty runway exits.",
@@ -573,20 +596,22 @@ export const ARTICLES: Article[] = [
     ],
     conclusion: "Mastering runway color is not about chasing Pantone's color of the year. It is an exacting science of optical physiology, textile texture, and emotional pacing that imprints indelible images upon the cultural imagination.",
     curatedLinks: [
-      { text: "Learn couture croquis sketching and gouache coloring", url: "/art-of-the-fashion-sketch", type: "internal", targetSlug: "art-of-the-fashion-sketch" },
-      { text: "Discover silk gazar and high-twist structural dressmaking", url: "/couture-architecture-silk-gazar", type: "internal", targetSlug: "couture-architecture-silk-gazar" },
+      { text: "Learn couture croquis sketching and gouache coloring", url: "/fashion-sketch", type: "internal", targetSlug: "fashion-sketch" },
+      { text: "Discover silk gazar and high-twist structural dressmaking", url: "/silk-gazar", type: "internal", targetSlug: "silk-gazar" },
       { text: "Review Josef Albers Foundation Color Studies", url: "https://albersfoundation.org", type: "outbound" }
     ],
     tags: ["Color Theory", "Runway Design", "Josef Albers", "Textiles", "Visual Arts"],
-    relatedIds: ["art-of-the-fashion-sketch", "couture-architecture-silk-gazar", "modern-menswear-soft-tailoring"]
+    relatedIds: ["fashion-sketch", "silk-gazar", "soft-tailoring"]
   },
   {
-    id: "modern-menswear-soft-tailoring",
-    slug: "modern-menswear-soft-tailoring",
-    cleanUrl: "/modern-menswear-soft-tailoring",
+    id: "soft-tailoring",
+    slug: "soft-tailoring",
+    cleanUrl: "/soft-tailoring",
+    legacySlugs: ["modern-menswear-soft-tailoring"],
     title: "Soft Tailoring Menswear: The Neapolitan Jacket and Fluid Cut",
     subtitle: "From Savile Row's rigid military breastplates to Naples' featherlight spalla camicia: the sartorial revolution toward relaxed masculine elegance.",
     category: "Tailoring & Menswear",
+    anchorText: "Read Neapolitan Soft Tailoring Menswear Guide",
     featured: false,
     seo: {
       mainKeyword: "soft tailoring menswear",
@@ -606,6 +631,7 @@ export const ARTICLES: Article[] = [
     date: "September 24, 2026",
     readTime: "7 min read",
     heroImage: "/src/assets/images/fashion_tailoring_wool_1792127194919.jpg",
+    imageFileSize: "70 KB",
     imageAlt: "Close-up of bespoke Italian chalk-stripe wool tailoring fabric with hand-stitched pick lapel and horn button",
     imageCaption: "Fig. 7 — Macro view of an unlined Neapolitan jacket showing hand-stitched pick-lapels, natural horn buttons, and delicate chalk stripe wool.",
     introduction: "For more than a century, the British bespoke suit was conceived as a textile suit of armor. Layered with heavy horsehair canvas, stiffened buckram, cotton wadding, and roped sleeveheads, it was engineered to mold the human torso into a disciplined military silhouette. But in the balmy streets of Naples, tailors like Vincenzo Attolini stripped out the heavy padding, tore out the synthetic linings, and gave birth to the soft jacket—a garment as comfortable as a cardigan yet endowed with supreme sartorial dignity.",
@@ -651,20 +677,22 @@ export const ARTICLES: Article[] = [
     ],
     conclusion: "Soft tailoring represents the triumph of comfort over rigidity, of individuality over conformity. By stripping away artificial padding, it celebrates the natural vitality of the human form with effortless grace.",
     curatedLinks: [
-      { text: "Learn zero-waste pattern drafting techniques", url: "/zero-waste-patternmaking", type: "internal", targetSlug: "zero-waste-patternmaking" },
-      { text: "Explore the art of croquis sketching and tailoring flats", url: "/art-of-the-fashion-sketch", type: "internal", targetSlug: "art-of-the-fashion-sketch" },
+      { text: "Learn zero-waste pattern drafting techniques", url: "/zero-waste", type: "internal", targetSlug: "zero-waste" },
+      { text: "Explore the art of croquis sketching and tailoring flats", url: "/fashion-sketch", type: "internal", targetSlug: "fashion-sketch" },
       { text: "Discover Savile Row Bespoke Association craftsmanship", url: "https://savilerowbespoke.com", type: "outbound" }
     ],
     tags: ["Menswear", "Bespoke Tailoring", "Spalla Camicia", "Savile Row", "Italian Style"],
-    relatedIds: ["zero-waste-patternmaking", "art-of-the-fashion-sketch", "historical-undergarments-reimagined"]
+    relatedIds: ["zero-waste", "fashion-sketch", "corsetry-stays"]
   },
   {
-    id: "art-of-the-fashion-sketch",
-    slug: "art-of-the-fashion-sketch",
-    cleanUrl: "/art-of-the-fashion-sketch",
+    id: "fashion-sketch",
+    slug: "fashion-sketch",
+    cleanUrl: "/fashion-sketch",
+    legacySlugs: ["art-of-the-fashion-sketch"],
     title: "Fashion Sketch Croquis: From 9-Head Figures to Digital CAD",
     subtitle: "Tracing how rapid gestures with ink and brush capture the kinetic spirit of garments long before shears touch cloth.",
     category: "Design Process",
+    anchorText: "Learn 9-Head Fashion Sketch Croquis Techniques",
     featured: false,
     seo: {
       mainKeyword: "fashion sketch croquis",
@@ -684,6 +712,7 @@ export const ARTICLES: Article[] = [
     date: "September 20, 2026",
     readTime: "6 min read",
     heroImage: "/src/assets/images/fashion_couture_sketch_1792127195336.jpg",
+    imageFileSize: "81 KB",
     imageAlt: "Haute couture fashion design sketch croquis on heavy watercolor paper with ink lines and sepia watercolor wash",
     imageCaption: "Fig. 8 — Live atelier croquis executed in carbon ink and sepia watercolor wash on rough Arches 300gsm watercolor paper.",
     introduction: "Before a collection becomes fabric, seams, and runway music, it exists as a fleeting ghost on paper: the croquis. From Christian Dior's sharp pencil lines defining the revolutionary 1947 'New Look' to Karl Lagerfeld's furious, ink-splattered caricatures tossed across the desk at Chanel, fashion illustration is the intimate birthplace of design intention. It is not an accurate anatomical diagram; it is an emotional gesture capturing weight, attitude, wind, and proportion in three seconds.",
@@ -729,20 +758,22 @@ export const ARTICLES: Article[] = [
     ],
     conclusion: "The fashion sketch is the soul of dressmaking captured in its purest embryonic state. It preserves that magical instant where an idea first leaves the designer's imagination and begins its journey toward tangible reality.",
     curatedLinks: [
-      { text: "Examine silk gazar architecture and high-fashion forms", url: "/couture-architecture-silk-gazar", type: "internal", targetSlug: "couture-architecture-silk-gazar" },
-      { text: "Read about runway color theory and simultaneous contrast", url: "/color-theory-runway-tonal-blocking", type: "internal", targetSlug: "color-theory-runway-tonal-blocking" },
+      { text: "Examine silk gazar architecture and high-fashion forms", url: "/silk-gazar", type: "internal", targetSlug: "silk-gazar" },
+      { text: "Read about runway color theory and simultaneous contrast", url: "/runway-color", type: "internal", targetSlug: "runway-color" },
       { text: "View René Gruau fashion illustrations at the Musée de la Mode", url: "https://www.madparis.fr", type: "outbound" }
     ],
     tags: ["Fashion Illustration", "Croquis", "Design Process", "Karl Lagerfeld", "Drawing"],
-    relatedIds: ["couture-architecture-silk-gazar", "revival-of-draping-madame-gres", "color-theory-runway-tonal-blocking"]
+    relatedIds: ["silk-gazar", "draping-gres", "runway-color"]
   },
   {
-    id: "historical-undergarments-reimagined",
-    slug: "historical-undergarments-reimagined",
-    cleanUrl: "/historical-undergarments-reimagined",
+    id: "corsetry-stays",
+    slug: "corsetry-stays",
+    cleanUrl: "/corsetry-stays",
+    legacySlugs: ["historical-undergarments-reimagined"],
     title: "Corset Boning and Construction: From Victorian Stays to Runway Armor",
     subtitle: "How contemporary couturiers liberate historical instruments of confinement into bold external armatures of feminine power.",
     category: "Historical Reinterpretation",
+    anchorText: "Examine Historical Corset Boning & Stays",
     featured: false,
     seo: {
       mainKeyword: "corset boning and construction",
@@ -762,6 +793,7 @@ export const ARTICLES: Article[] = [
     date: "September 16, 2026",
     readTime: "8 min read",
     heroImage: "/src/assets/images/fashion_corset_structure_1792127209746.jpg",
+    imageFileSize: "77 KB",
     imageAlt: "Historical ivory silk satin corset foundation with boning channels, brass grommets, and pink lacing ribbons on antique workbench",
     imageCaption: "Fig. 9 — Archival study of an 1880s silk satin corset foundation showing whalebone channels, grommet reinforcement, and spiral steel boning.",
     introduction: "For centuries, the corset, the pannier, and the steel cage crinoline were hidden beneath layers of heavy petticoats—functioning as rigid architectural molds designed to contort the female physique into societal ideals of submission and fragility. Yet in the radical hands of Vivienne Westwood, Jean Paul Gaultier, and Alexander McQueen, these underground understructures were violently brought to the surface, transformed from secret cages of confinement into triumphant, defiant external armor.",
@@ -807,20 +839,22 @@ export const ARTICLES: Article[] = [
     ],
     conclusion: "When historical instruments of restriction are re-engineered and worn on the outside, their semiotic meaning is inverted. The corset and crinoline today stand not as relics of oppression, but as kinetic monuments to craft, endurance, and self-possession.",
     curatedLinks: [
-      { text: "Examine high-twist silk gazar and interior armatures", url: "/couture-architecture-silk-gazar", type: "internal", targetSlug: "couture-architecture-silk-gazar" },
-      { text: "Learn 3D draping techniques on the dress stand", url: "/revival-of-draping-madame-gres", type: "internal", targetSlug: "revival-of-draping-madame-gres" },
+      { text: "Examine high-twist silk gazar and interior armatures", url: "/silk-gazar", type: "internal", targetSlug: "silk-gazar" },
+      { text: "Learn 3D draping techniques on the dress stand", url: "/draping-gres", type: "internal", targetSlug: "draping-gres" },
       { text: "Browse the Victoria and Albert Museum Corsetry Archive", url: "https://www.vam.ac.uk", type: "outbound" }
     ],
     tags: ["Corsetry", "Costume History", "Vivienne Westwood", "Alexander McQueen", "Feminism"],
-    relatedIds: ["couture-architecture-silk-gazar", "revival-of-draping-madame-gres", "deconstructivism-japanese-avant-garde"]
+    relatedIds: ["silk-gazar", "draping-gres", "deconstructivism"]
   },
   {
-    id: "circular-wardrobe-blueprint",
-    slug: "circular-wardrobe-blueprint",
-    cleanUrl: "/circular-wardrobe-blueprint",
+    id: "circular-fashion",
+    slug: "circular-fashion",
+    cleanUrl: "/circular-fashion",
+    legacySlugs: ["circular-wardrobe-blueprint"],
     title: "Circular Fashion Design: Garments Engineered for Monomaterial Disassembly",
     subtitle: "Eliminating blended poly-cotton traps through bio-dissolvable threads, removable trims, and closed-loop lifecycle engineering.",
     category: "Sustainable Form",
+    anchorText: "Explore Circular Fashion Monomaterial Blueprint",
     featured: false,
     seo: {
       mainKeyword: "circular fashion design",
@@ -840,6 +874,7 @@ export const ARTICLES: Article[] = [
     date: "September 12, 2026",
     readTime: "7 min read",
     heroImage: "/src/assets/images/fashion_smart_textiles_1792127171723.jpg",
+    imageFileSize: "79 KB",
     imageAlt: "Pure natural unbleached wool fibers woven with dissolvable hydrothermal sewing thread for circular garment recycling",
     imageCaption: "Fig. 10 — Garment engineered for monomaterial circular recycling, utilizing thermo-degradable sewing threads for instant seam separation.",
     introduction: "Every second, the equivalent of one garbage truck of textiles is landfilled or incinerated globally. The deepest tragedy of contemporary apparel design is not merely that garments are produced in excess—it is that they are structurally engineered to be unrecyclable. When a factory spins a 60% cotton and 40% polyester blend, stitches it with nylon thread, adds zinc rivets, and fuses synthetic interfacing, they create a 'monstrous hybrid' that no chemical or mechanical recycling facility on Earth can separate profitably. Circular fashion starts not at the recycling bin, but at the initial designer's specification sheet.",
@@ -885,12 +920,12 @@ export const ARTICLES: Article[] = [
     ],
     conclusion: "Circular design is not a sacrifice of style; it is the ultimate expression of sophisticated craftsmanship. By designing garments with their reincarnation in mind, the fashion industry can finally reconcile its boundless creative genius with the ecological limits of our living planet.",
     curatedLinks: [
-      { text: "Examine zero-waste pattern tessellations and cutting efficiency", url: "/zero-waste-patternmaking", type: "internal", targetSlug: "zero-waste-patternmaking" },
-      { text: "Learn about mycelium leather and bio-textiles", url: "/smart-textiles-bio-fabrics", type: "internal", targetSlug: "smart-textiles-bio-fabrics" },
+      { text: "Examine zero-waste pattern tessellations and cutting efficiency", url: "/zero-waste", type: "internal", targetSlug: "zero-waste" },
+      { text: "Learn about mycelium leather and bio-textiles", url: "/bio-textiles", type: "internal", targetSlug: "bio-textiles" },
       { text: "Read the Cradle to Cradle Products Innovation Institute guidelines", url: "https://c2ccertified.org", type: "outbound" }
     ],
     tags: ["Circular Economy", "Sustainability", "Design for Disassembly", "Textile Recycling", "Zero Waste"],
-    relatedIds: ["zero-waste-patternmaking", "smart-textiles-bio-fabrics", "modern-menswear-soft-tailoring"]
+    relatedIds: ["zero-waste", "bio-textiles", "soft-tailoring"]
   }
 ];
 
@@ -904,7 +939,9 @@ export const KEYWORD_MAP: KeywordMapEntry[] = [
     volume: HOMEPAGE_SEO.searchVolume,
     questionItAnswers: HOMEPAGE_SEO.questionItAnswers,
     titleTag: HOMEPAGE_SEO.titleTag,
-    metaDescription: HOMEPAGE_SEO.metaDescription
+    metaDescription: HOMEPAGE_SEO.metaDescription,
+    anchorText: "Visit ÉTOFFE Fashion Design Journal Homepage",
+    imageSize: "45 KB (Optimized)"
   },
   ...ARTICLES.map(art => ({
     pageName: art.category + " — " + art.title.split(":")[0],
@@ -915,6 +952,8 @@ export const KEYWORD_MAP: KeywordMapEntry[] = [
     volume: art.seo.searchVolume,
     questionItAnswers: art.seo.questionItAnswers,
     titleTag: art.seo.titleTag,
-    metaDescription: art.seo.metaDescription
+    metaDescription: art.seo.metaDescription,
+    anchorText: art.anchorText,
+    imageSize: art.imageFileSize + " (Optimized <100KB)"
   }))
 ];

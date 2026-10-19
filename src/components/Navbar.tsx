@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bookmark, Menu, X, Search, Sparkles, Table2 } from 'lucide-react';
+import { Bookmark, Menu, X, Search, Sparkles, Table2, Image as ImageIcon } from 'lucide-react';
 
 interface NavbarProps {
   onNavigateHome: () => void;
@@ -9,6 +9,7 @@ interface NavbarProps {
   onOpenReadingList: () => void;
   onOpenSubscribe: () => void;
   onOpenKeywordMap: () => void;
+  onOpenPreviewModal: () => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
 }
@@ -21,6 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenReadingList,
   onOpenSubscribe,
   onOpenKeywordMap,
+  onOpenPreviewModal,
   searchQuery,
   onSearchChange,
 }) => {
@@ -86,6 +88,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Table2 className="w-3.5 h-3.5 text-stone-700" />
               <span className="hidden sm:inline">Keyword Map (Part A)</span>
               <span className="sm:hidden font-mono">SEO</span>
+            </button>
+
+            {/* Live Screenshot & HTML Links Modal button */}
+            <button
+              onClick={onOpenPreviewModal}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-stone-900 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 rounded-md transition-colors"
+              title="View Website Screenshot & HTML Links"
+            >
+              <ImageIcon className="w-3.5 h-3.5 text-emerald-800" />
+              <span className="hidden sm:inline">Screenshot & Links</span>
+              <span className="sm:hidden font-mono">Links</span>
             </button>
 
             {/* Quick search input toggle */}
@@ -198,6 +211,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <Table2 className="w-4 h-4" />
                 <span>View Keyword Research Map (Part A)</span>
+              </button>
+              <button
+                onClick={() => {
+                  onOpenPreviewModal();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full py-2 px-3 bg-emerald-100 border border-emerald-300 text-emerald-950 text-xs font-semibold rounded text-center flex items-center justify-center gap-2"
+              >
+                <ImageIcon className="w-4 h-4 text-emerald-800" />
+                <span>Website Screenshot & HTML Links</span>
               </button>
               <div className="flex items-center justify-between pt-1">
                 <button

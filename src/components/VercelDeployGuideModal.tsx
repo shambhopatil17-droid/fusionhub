@@ -73,13 +73,19 @@ export const VercelDeployGuideModal: React.FC<VercelDeployGuideModalProps> = ({
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6 text-xs text-stone-700 font-sans">
           {/* Explanation banner */}
-          <div className="p-4 bg-amber-50 border border-amber-200 rounded text-stone-900 space-y-1">
-            <span className="font-semibold block text-sm">
-              Why was your site showing 404 or not appearing on Vercel?
+          <div className="p-4 bg-emerald-50 border border-emerald-200 rounded text-stone-900 space-y-2">
+            <span className="font-semibold block text-sm text-emerald-950 flex items-center gap-1.5">
+              <Check className="w-4 h-4 text-emerald-600" />
+              <span>Fix Applied: Vercel "npm error code ERESOLVE" resolved!</span>
             </span>
-            <p className="leading-relaxed">
-              When using clean URLs without hashes (like <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">/couture-architecture-silk-gazar</code>), Vercel's static server looks for a physical HTML file with that name unless you supply a <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">vercel.json</code> rewrite rule. We have now added <code className="font-mono bg-white px-1 py-0.5 rounded border border-amber-300">vercel.json</code> to your root folder!
+            <p className="leading-relaxed text-xs text-stone-700">
+              The Vercel build error happened because Vite 8 and React 19 had conflicting peer dependencies with <code className="bg-white px-1 py-0.5 rounded font-mono border border-emerald-300">esbuild</code>. We have:
             </p>
+            <ul className="list-disc pl-5 space-y-1 text-xs text-stone-700">
+              <li>Configured <code className="font-mono bg-white px-1 py-0.5 rounded border border-emerald-300">.npmrc</code> with <code className="font-mono">legacy-peer-deps=true</code></li>
+              <li>Configured <code className="font-mono bg-white px-1 py-0.5 rounded border border-emerald-300">vercel.json</code> with <code className="font-mono">"installCommand": "npm install --legacy-peer-deps"</code></li>
+              <li>Added SPA rewrite rules so clean URLs like <code className="font-mono">/silk-gazar</code> work seamlessly on Vercel without 404s!</li>
+            </ul>
           </div>
 
           {/* Method 1: Git & GitHub (Recommended) */}

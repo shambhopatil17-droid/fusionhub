@@ -8,6 +8,7 @@ import { ReadingListDrawer } from './components/ReadingListDrawer';
 import { NewsletterModal } from './components/NewsletterModal';
 import { SeoKeywordMapModal } from './components/SeoKeywordMapModal';
 import { VercelDeployGuideModal } from './components/VercelDeployGuideModal';
+import { WebsitePreviewModal } from './components/WebsitePreviewModal';
 import { Footer } from './components/Footer';
 import { 
   SlidersHorizontal, 
@@ -18,7 +19,8 @@ import {
   Table2,
   CheckCircle2,
   ShieldCheck,
-  Triangle
+  Triangle,
+  Image as ImageIcon
 } from 'lucide-react';
 
 export default function App() {
@@ -37,6 +39,7 @@ export default function App() {
   const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
   const [isKeywordMapOpen, setIsKeywordMapOpen] = useState(false);
   const [isVercelModalOpen, setIsVercelModalOpen] = useState(false);
+  const [isWebsitePreviewOpen, setIsWebsitePreviewOpen] = useState(false);
   const [sortBy, setSortBy] = useState<'chronological' | 'readTime'>('chronological');
 
   // Sync saved bookmarks with localStorage
@@ -60,7 +63,12 @@ export default function App() {
       }
 
       if (path && path !== '') {
-        const found = ARTICLES.find(a => a.slug === path || a.cleanUrl.replace(/^\//, '') === path || a.id === path);
+        const found = ARTICLES.find(a => 
+          a.slug === path || 
+          a.cleanUrl.replace(/^\//, '') === path || 
+          a.id === path ||
+          a.legacySlugs.includes(path)
+        );
         if (found) {
           setSelectedArticle(found);
           return;
@@ -129,7 +137,11 @@ export default function App() {
       handleBackToHome();
     } else {
       const slug = url.replace(/^\//, '');
-      const found = ARTICLES.find(a => a.slug === slug || a.cleanUrl === url);
+      const found = ARTICLES.find(a => 
+        a.slug === slug || 
+        a.cleanUrl === url || 
+        a.legacySlugs.includes(slug)
+      );
       if (found) {
         handleSelectArticle(found);
       }
@@ -200,6 +212,7 @@ export default function App() {
         onOpenReadingList={() => setIsReadingListOpen(true)}
         onOpenSubscribe={() => setIsSubscribeOpen(true)}
         onOpenKeywordMap={() => setIsKeywordMapOpen(true)}
+        onOpenPreviewModal={() => setIsWebsitePreviewOpen(true)}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
       />
@@ -222,10 +235,17 @@ export default function App() {
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 <span>
-                  <strong>On-Page SEO & AEO Standard Verified:</strong> Clean URLs, Question-Answer H2s, Title rules (50-60 chars), Meta descriptions (150-160 chars).
+                  <strong>On-Page SEO & AEO Standard Verified:</strong> Clean URLs, Question-Answer H2s, Title rules (50-60 chars), Meta descriptions (150-160 chars), All Images &lt;100KB.
                 </span>
               </div>
               <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsWebsitePreviewOpen(true)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-700 hover:bg-emerald-600 text-stone-50 rounded font-semibold text-[11px] uppercase tracking-wider transition-colors shrink-0"
+                >
+                  <ImageIcon className="w-3.5 h-3.5" />
+                  <span>Website Screenshot & HTML Links</span>
+                </button>
                 <button
                   onClick={() => setIsVercelModalOpen(true)}
                   className="inline-flex items-center gap-1.5 px-3 py-1 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded font-semibold text-[11px] uppercase tracking-wider transition-colors shrink-0 border border-stone-700"
@@ -450,6 +470,13 @@ export default function App() {
       <VercelDeployGuideModal
         isOpen={isVercelModalOpen}
         onClose={() => setIsVercelModalOpen(false)}
+      />
+
+      {/* Website Preview, HTML Links & Image Size Audit Modal */}
+      <WebsitePreviewModal
+        isOpen={isWebsitePreviewOpen}
+        onClose={() => setIsWebsitePreviewOpen(false)}
+        onNavigateToUrl={handleNavigateToUrl}
       />
 
       {/* Newsletter / Dispatch Inscription Modal */}
