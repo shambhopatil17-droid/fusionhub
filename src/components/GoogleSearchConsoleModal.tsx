@@ -12,7 +12,7 @@ export const GoogleSearchConsoleModal: React.FC<GoogleSearchConsoleModalProps> =
 }) => {
   const [activeMethod, setActiveMethod] = useState<'meta' | 'file'>('meta');
   const [verificationCode, setVerificationCode] = useState(() => {
-    return localStorage.getItem('gsc_verification_token') || '';
+    return localStorage.getItem('gsc_verification_token') || 'V5-iwAoIhAMyolQqm8gRJ9YUaiTFYOuwakJt1EPcfsI';
   });
   const [htmlFileName, setHtmlFileName] = useState('googled5e976b009.html');
   const [copiedType, setCopiedType] = useState<string | null>(null);
