@@ -22,17 +22,32 @@ export const FallbackImage: React.FC<FallbackImageProps> = ({
 
   const [currentSrc, setCurrentSrc] = useState(normalizedSrc);
   const [hasError, setHasError] = useState(false);
-  const [retried, setRetried] = useState(false);
+  const [retryStep, setRetryStep] = useState(0);
 
   const handleError = () => {
-    // If /images/... failed, try /src/assets/images/... or vice versa once
-    if (!retried) {
-      setRetried(true);
-      if (currentSrc.startsWith('/images/')) {
-        setCurrentSrc(currentSrc.replace('/images/', '/src/assets/images/'));
+    // Retry step 1: Check clean name vs timestamp alias
+    if (retryStep === 0) {
+      setRetryStep(1);
+      const aliasMap: Record<string, string> = {
+        '/images/couture-sculpture.jpg': '/images/hero_couture_sculptural_1792127170158.jpg',
+        '/images/patternmaking-atelier.jpg': '/images/fashion_patternmaking_atelier_1792127171739.jpg',
+        '/images/smart-textiles.jpg': '/images/fashion_smart_textiles_1792127171723.jpg',
+        '/images/color-drape.jpg': '/images/fashion_color_drape_1792127210448.jpg',
+        '/images/tailoring-wool.jpg': '/images/fashion_tailoring_wool_1792127194919.jpg',
+        '/images/couture-sketch.jpg': '/images/fashion_couture_sketch_1792127195336.jpg',
+        '/images/corset-structure.jpg': '/images/fashion_corset_structure_1792127209746.jpg',
+        '/images/homepage-screenshot.jpg': '/images/etoffe_website_homepage_screenshot_1792130261049.jpg',
+      };
+      if (aliasMap[currentSrc]) {
+        setCurrentSrc(aliasMap[currentSrc]);
         return;
-      } else if (currentSrc.startsWith('/src/assets/images/')) {
-        setCurrentSrc(currentSrc.replace('/src/assets/images/', '/images/'));
+      }
+    }
+    // Retry step 2: Check relative ./images/ or /src/assets/images/
+    if (retryStep <= 1) {
+      setRetryStep(2);
+      if (currentSrc.startsWith('/images/')) {
+        setCurrentSrc('.' + currentSrc);
         return;
       }
     }

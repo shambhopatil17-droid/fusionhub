@@ -139,13 +139,17 @@ export const FeaturedHero: React.FC<FeaturedHeroProps> = ({
               </div>
 
               {/* Primary Read CTA with Strong Anchor Text */}
-              <button
-                onClick={() => onSelectArticle(article)}
+              <a
+                href={article.cleanUrl}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onSelectArticle(article);
+                }}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-stone-950 hover:bg-stone-800 text-stone-50 text-xs font-semibold uppercase tracking-wider rounded-md transition-colors group shadow-xs"
               >
-                <span>Read Silk Gazar Architecture Investigation</span>
+                <span>{article.anchorText}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </a>
             </div>
           </div>
         </div>

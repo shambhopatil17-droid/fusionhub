@@ -35,8 +35,8 @@ export const WebsitePreviewModal: React.FC<WebsitePreviewModalProps> = ({
       url: '/',
       fullUrl: `${currentOrigin}/`,
       anchorText: 'Visit ÉTOFFE Fashion Design Journal Homepage',
-      image: '/images/hero_couture_sculptural_1792127170158.jpg',
-      imageSize: '45 KB',
+      image: '/images/couture-sculpture.jpg',
+      imageSize: '44 KB',
       keyword: HOMEPAGE_SEO.mainKeyword,
     },
     ...ARTICLES.map(art => ({
@@ -162,7 +162,7 @@ export const WebsitePreviewModal: React.FC<WebsitePreviewModalProps> = ({
                   <span className="text-emerald-700 font-semibold">Screenshot Size: 42 KB</span>
                 </div>
                 <img
-                  src="/images/etoffe_website_homepage_screenshot_1792130261049.jpg"
+                  src="/images/homepage-screenshot.jpg"
                   alt="ÉTOFFE Modern Fashion Design Journal Homepage Screenshot"
                   className="w-full h-auto object-cover"
                 />

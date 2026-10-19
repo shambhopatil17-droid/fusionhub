@@ -120,15 +120,19 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           </div>
 
           {/* Explicit Descriptive Anchor Text Button (Mandatory SEO Link & Anchor Rule) */}
-          <button
-            onClick={() => onSelectArticle(article)}
+          <a
+            href={article.cleanUrl}
+            onClick={(e) => {
+              e.preventDefault();
+              onSelectArticle(article);
+            }}
             className="inline-flex items-center justify-between gap-1 text-xs font-semibold text-stone-950 hover:text-stone-600 transition-colors bg-stone-100 hover:bg-stone-200 px-3 py-1.5 rounded text-left"
             aria-label={article.anchorText}
             title={article.anchorText}
           >
             <span className="line-clamp-1">{article.anchorText}</span>
             <ArrowUpRight className="w-3.5 h-3.5 shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </button>
+          </a>
         </div>
       </div>
     </article>

@@ -9,6 +9,7 @@ import { NewsletterModal } from './components/NewsletterModal';
 import { SeoKeywordMapModal } from './components/SeoKeywordMapModal';
 import { VercelDeployGuideModal } from './components/VercelDeployGuideModal';
 import { WebsitePreviewModal } from './components/WebsitePreviewModal';
+import { GoogleSearchConsoleModal } from './components/GoogleSearchConsoleModal';
 import { Footer } from './components/Footer';
 import { 
   SlidersHorizontal, 
@@ -20,7 +21,8 @@ import {
   CheckCircle2,
   ShieldCheck,
   Triangle,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Search
 } from 'lucide-react';
 
 export default function App() {
@@ -40,6 +42,7 @@ export default function App() {
   const [isKeywordMapOpen, setIsKeywordMapOpen] = useState(false);
   const [isVercelModalOpen, setIsVercelModalOpen] = useState(false);
   const [isWebsitePreviewOpen, setIsWebsitePreviewOpen] = useState(false);
+  const [isGscModalOpen, setIsGscModalOpen] = useState(false);
   const [sortBy, setSortBy] = useState<'chronological' | 'readTime'>('chronological');
 
   // Sync saved bookmarks with localStorage
@@ -249,6 +252,13 @@ export default function App() {
                 </span>
               </div>
               <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsGscModalOpen(true)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500 hover:bg-amber-400 text-stone-950 rounded font-semibold text-[11px] uppercase tracking-wider transition-colors shrink-0"
+                >
+                  <Search className="w-3.5 h-3.5" />
+                  <span>Google Search Console</span>
+                </button>
                 <button
                   onClick={() => setIsWebsitePreviewOpen(true)}
                   className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-700 hover:bg-emerald-600 text-stone-50 rounded font-semibold text-[11px] uppercase tracking-wider transition-colors shrink-0"
@@ -495,6 +505,12 @@ export default function App() {
         onClose={() => setIsSubscribeOpen(false)}
       />
 
+      {/* Google Search Console Setup & Verification Modal */}
+      <GoogleSearchConsoleModal
+        isOpen={isGscModalOpen}
+        onClose={() => setIsGscModalOpen(false)}
+      />
+
       {/* Curatorial Masthead Footer */}
       <Footer
         onSelectCategory={(cat) => {
@@ -505,6 +521,7 @@ export default function App() {
         }}
         onNavigateHome={handleBackToHome}
         onOpenSubscribe={() => setIsSubscribeOpen(true)}
+        onOpenGsc={() => setIsGscModalOpen(true)}
       />
     </div>
   );

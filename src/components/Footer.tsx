@@ -6,12 +6,14 @@ interface FooterProps {
   onSelectCategory: (category: string) => void;
   onNavigateHome: () => void;
   onOpenSubscribe: () => void;
+  onOpenGsc?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onSelectCategory,
   onNavigateHome,
   onOpenSubscribe,
+  onOpenGsc,
 }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -84,10 +86,37 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span>© 2026 ÉTOFFE Journal. All rights reserved.</span>
             <span aria-hidden="true">·</span>
-            <span>Independent Fashion Design Scholarship</span>
+            {onOpenGsc && (
+              <>
+                <button
+                  onClick={onOpenGsc}
+                  className="text-stone-400 hover:text-emerald-400 font-semibold underline underline-offset-2 transition-colors"
+                >
+                  Google Search Console Setup
+                </button>
+                <span aria-hidden="true">·</span>
+              </>
+            )}
+            <a
+              href="/sitemap.xml"
+              target="_blank"
+              rel="noreferrer"
+              className="text-stone-400 hover:text-stone-200 underline underline-offset-2 transition-colors"
+            >
+              XML Sitemap
+            </a>
+            <span aria-hidden="true">·</span>
+            <a
+              href="/robots.txt"
+              target="_blank"
+              rel="noreferrer"
+              className="text-stone-400 hover:text-stone-200 underline underline-offset-2 transition-colors"
+            >
+              robots.txt
+            </a>
           </div>
 
           <button

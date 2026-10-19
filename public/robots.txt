@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fusionhub-q6wl.vercel.app/sitemap.xml

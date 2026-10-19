@@ -605,10 +605,14 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedArticles.map((rel) => (
-              <div
+              <a
                 key={rel.id}
-                onClick={() => onSelectArticle(rel)}
-                className="group cursor-pointer bg-white border border-stone-200 rounded-sm overflow-hidden hover:border-stone-400 transition-all p-4 flex flex-col justify-between"
+                href={rel.cleanUrl}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onSelectArticle(rel);
+                }}
+                className="group cursor-pointer bg-white border border-stone-200 rounded-sm overflow-hidden hover:border-stone-400 transition-all p-4 flex flex-col justify-between text-left"
               >
                 <div className="space-y-3">
                   <div className="aspect-[16/10] overflow-hidden bg-stone-100 rounded-xs">
@@ -625,12 +629,15 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                   <h4 className="font-serif text-base font-medium text-stone-900 group-hover:text-stone-600 line-clamp-2 leading-snug">
                     {rel.title}
                   </h4>
+                  <p className="text-[11px] text-stone-600 font-sans font-medium line-clamp-1">
+                    {rel.anchorText}
+                  </p>
                 </div>
                 <div className="pt-3 mt-3 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
                   <span>{rel.author.name}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-stone-900" />
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </section>
