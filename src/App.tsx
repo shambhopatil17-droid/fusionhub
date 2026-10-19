@@ -54,12 +54,14 @@ export default function App() {
   // Clean URL Routing without # symbols, random IDs, or numbers (Slide 7 standard!)
   useEffect(() => {
     const syncRouteFromLocation = () => {
-      // 1. Check pathname (e.g. /couture-architecture-silk-gazar)
+      // 1. Check pathname (e.g. /silk-gazar)
       let path = window.location.pathname.replace(/^\//, '');
       
-      // 2. Fallback check hash if user accessed via old hash format
-      if (!path && window.location.hash) {
-        path = window.location.hash.replace(/^#\/?(article\/)?/, '');
+      // 2. If a # number symbol exists in URL, strip it immediately to enforce clean URLs
+      if (window.location.hash) {
+        if (!path) {
+          path = window.location.hash.replace(/^#\/?(article\/)?/, '');
+        }
       }
 
       if (path && path !== '') {
@@ -71,8 +73,16 @@ export default function App() {
         );
         if (found) {
           setSelectedArticle(found);
+          // Ensure URL in address bar has NO # symbol
+          if (window.location.hash) {
+            window.history.replaceState(null, '', found.cleanUrl);
+          }
           return;
         }
+      }
+
+      if (window.location.hash) {
+        window.history.replaceState(null, '', '/');
       }
       setSelectedArticle(null);
     };

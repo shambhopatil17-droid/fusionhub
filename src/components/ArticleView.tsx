@@ -321,20 +321,27 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               </div>
               <nav className="space-y-2 text-xs font-medium">
                 {article.sections.map((sec, idx) => (
-                  <a
+                  <button
                     key={sec.id}
-                    href={`#${sec.id}`}
-                    className={`block py-1.5 px-2 rounded transition-colors leading-snug ${
+                    type="button"
+                    onClick={() => {
+                      setActiveTocId(sec.id);
+                      const targetEl = document.getElementById(sec.id);
+                      if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
+                    className={`w-full text-left block py-1.5 px-2 rounded transition-colors leading-snug cursor-pointer ${
                       activeTocId === sec.id
                         ? 'bg-stone-900 text-white font-semibold'
                         : 'text-stone-600 hover:text-stone-950 hover:bg-stone-100'
                     }`}
                   >
                     <span className="font-mono mr-1.5 text-[10px] opacity-75">
-                      Q0{idx + 1}.
+                      Question {idx + 1}.
                     </span>
                     {sec.heading}
-                  </a>
+                  </button>
                 ))}
               </nav>
 
@@ -361,7 +368,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                 <div className="flex flex-wrap gap-1.5 text-xs text-stone-600">
                   {article.tags.map(tag => (
                     <span key={tag} className="text-stone-700 bg-stone-100 px-2 py-0.5 rounded text-[11px]">
-                      #{tag}
+                      {tag}
                     </span>
                   ))}
                 </div>
