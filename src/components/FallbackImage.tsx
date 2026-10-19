@@ -15,9 +15,31 @@ export const FallbackImage: React.FC<FallbackImageProps> = ({
   aspectRatioClass = "aspect-[16/10]",
   category = "Fashion Design"
 }) => {
-  const [hasError, setHasError] = useState(false);
+  // Normalize path: convert /src/assets/images/... to /images/... for production compatibility
+  const normalizedSrc = src.startsWith('/src/assets/images/') 
+    ? src.replace('/src/assets/images/', '/images/') 
+    : src;
 
-  if (hasError || !src) {
+  const [currentSrc, setCurrentSrc] = useState(normalizedSrc);
+  const [hasError, setHasError] = useState(false);
+  const [retried, setRetried] = useState(false);
+
+  const handleError = () => {
+    // If /images/... failed, try /src/assets/images/... or vice versa once
+    if (!retried) {
+      setRetried(true);
+      if (currentSrc.startsWith('/images/')) {
+        setCurrentSrc(currentSrc.replace('/images/', '/src/assets/images/'));
+        return;
+      } else if (currentSrc.startsWith('/src/assets/images/')) {
+        setCurrentSrc(currentSrc.replace('/src/assets/images/', '/images/'));
+        return;
+      }
+    }
+    setHasError(true);
+  };
+
+  if (hasError || !currentSrc) {
     return (
       <div
         className={`${aspectRatioClass} w-full bg-stone-900 text-stone-300 flex flex-col items-center justify-center p-6 relative overflow-hidden border border-stone-800`}
@@ -47,11 +69,11 @@ export const FallbackImage: React.FC<FallbackImageProps> = ({
   return (
     <div className={`relative overflow-hidden bg-stone-100 ${aspectRatioClass}`}>
       <img
-        src={src}
+        src={currentSrc}
         alt={alt}
         referrerPolicy="no-referrer"
         loading="lazy"
-        onError={() => setHasError(true)}
+        onError={handleError}
         className={`${className} transition-transform duration-500 ease-out hover:scale-[1.02]`}
       />
     </div>
